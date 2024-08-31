@@ -35,7 +35,8 @@ export default function LoginForm() {
         form.setError("root", { message: result.error });
       } else {
         if (result.url) {
-          router.push(result.url);
+					const resultURLWithAllow = `${result.url}?allow=true`;
+          router.push(resultURLWithAllow);
         }
       }
     } catch (error) {

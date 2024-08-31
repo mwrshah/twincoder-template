@@ -117,6 +117,7 @@ export const handleGoogleSignIn = async ( callbackUrl?: string | null) => {
 }
 
 export const handleSignOut = async () => {
+	redirect("/auth/login");
 	await signOut();
 	return { success: "Sign out successful!" };
 }
