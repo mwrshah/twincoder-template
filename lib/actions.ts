@@ -11,6 +11,7 @@ import { signIn, signOut } from "@/auth";
 import bcrypt from "bcryptjs";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { redirect } from "next/navigation";
+import  cuid  from "cuid";
 
 
 const prisma = new PrismaClient();
@@ -52,6 +53,14 @@ export const getUserById = async (id: string) => {
   }
 };
 
+export const checkForSession = async () => {
+  const session = await prisma.session.findFirst({
+    where: {
+      userId: 'cm0ieenxz0000u2qw29x4f0dn',
+    }
+  });
+  return session;
+}
 
 export const login = async (
   values: z.infer<typeof LoginSchema>,
@@ -92,6 +101,15 @@ export const login = async (
       password,
       redirect: false
     });
+//DEMO ONLY: The following code allows showing user a Demo of the login functionality in an iframe
+    await prisma.session.create({
+      data: {
+        userId: 'cm0ieenxz0000u2qw29x4f0dn',
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 1), // 1 hrs 
+        sessionToken: cuid(),
+      }
+    });
+
     return { success: true, url: callbackUrl || DEFAULT_LOGIN_REDIRECT };
   } catch (error) {
     console.error("Error during sign in", error);
@@ -104,10 +122,19 @@ export const login = async (
 
 export const handleGoogleSignIn = async ( callbackUrl?: string | null) => {
 	try {
-		await signIn('google', { 
-			redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT
-		});
-		return { success: "Login successful!" };
+//DEMO ONLY: The following code allows showing user a Demo of the login functionality in an iframe
+    await prisma.session.create({
+      data: {
+        userId: 'cm0ieenxz0000u2qw29x4f0dn',
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 1), // 1 hrs 
+        sessionToken: cuid(),
+      }
+    });
+		return { success: true, url: callbackUrl || DEFAULT_LOGIN_REDIRECT };
+//REAL CODE: CAN ONLY BE SET BY THE USER
+//		await signIn('google', { 
+//      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT
+//		});
 	}catch (error) {
 		if (error instanceof AuthError) {
 			return { error: "Invalid credentials!" };
@@ -117,6 +144,11 @@ export const handleGoogleSignIn = async ( callbackUrl?: string | null) => {
 }
 
 export const handleSignOut = async () => {
+  await prisma.session.deleteMany({
+    where: {
+      userId: 'cm0ieenxz0000u2qw29x4f0dn',
+    }
+  });
 	redirect("/auth/login");
 	await signOut();
 	return { success: "Sign out successful!" };

@@ -27,7 +27,7 @@ export default function LoginForm() {
     },
   });
 
-	//Credentials login function
+	//PREBUILT - Credentials login function- DO NOT CHANGE - Only the user can change in the real implementation
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     try {
       const result = await login(values, '/');
@@ -43,8 +43,26 @@ export default function LoginForm() {
       form.setError("root", { message: "An unexpected error occurred" });
     }
   };
-	
 
+	//PREBUILT - Google login function - DO NOT CHANGE - Only the user can change in the real implementation
+  const onGoogleSubmit = async () => {
+    try {
+      const result = await handleGoogleSignIn('/');
+      if (result.error) {
+        form.setError("root", { message: result.error });
+      } else {
+        if (result.url) {
+          router.push(result.url);
+        }
+      }
+    } catch (error) {
+			
+      form.setError("root", { message: "An unexpected error occurred" });
+    }
+  };
+
+
+  //Feel free to change the UI as you want
   return (
     <div className="flex items-center justify-center min-h-screen bg-neutral-50">
       <Dialog open={true} onClose={() => {}} className="relative z-50">
@@ -105,7 +123,7 @@ export default function LoginForm() {
               <div className="mt-4">
                 <button
 									onClick={async () =>  {
-										handleGoogleSignIn('/')}}
+										onGoogleSubmit()}}
                   className="w-full flex items-center justify-center gap-2 bg-white text-md border border-gray-300 rounded-md py-2 px-4 hover:bg-gray-50 transition-colors"
                 >
                   <FcGoogle />
