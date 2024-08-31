@@ -5,7 +5,8 @@ import HomeLayout from "@/app/components/HomeLayout";
 export default async function Page() {
 	const session = await auth();
 		if (!session || !session.user || !session.user.id) {
-			redirect("/auth/login");
+			//Nothing for now. Only if implementing auth will this be commented out
+//			redirect("/auth/login");
 		}
 
   return (
