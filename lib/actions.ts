@@ -5,11 +5,12 @@ import { AuthError } from "next-auth";
 
 import { LoginSchema } from "@/schemas";
 import { RegisterSchema } from "@/schemas";
-import { User } from "@prisma/client";
 
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
+
 import bcrypt from "bcryptjs";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { redirect } from "next/navigation";
 
 
 const prisma = new PrismaClient();
@@ -56,6 +57,7 @@ export const login = async (
   values: z.infer<typeof LoginSchema>,
   callbackUrl?: string | null
 ) => {
+
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -66,39 +68,58 @@ export const login = async (
 
   let existingUser = await getUserByEmail(email);
 
-	if (email === "2wincoder@trilogy.com" && password === "2wincoder") {
-		existingUser = {
-			id: "fake-user-id",
-			name: "User",
-			email: "2wincoder@trilogy.com",
-			emailVerified: null,
-			image: null,
-			password: "2wincoder",
-			role: "user",
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		};
-	}
+  if (email === "2wincoder@trilogy.com" && password === "2wincoder") {
+    existingUser = {
+      id: "fake-user-id",
+      name: "User",
+      email: "2wincoder@trilogy.com",
+      emailVerified: null,
+      image: null,
+      password: "2wincoder",
+      role: "user",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  }
 
   if (!existingUser || !existingUser.email || !existingUser.password) {
     return { error: "User not registered!" };
   }
+
   try {
     await signIn("credentials", {
       email,
       password,
-      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+      redirect: false
     });
-    return { success: "Login successful!" };
+    return { success: true, url: callbackUrl || DEFAULT_LOGIN_REDIRECT };
   } catch (error) {
+    console.error("Error during sign in", error);
     if (error instanceof AuthError) {
       return { error: "Invalid credentials!" };
     }
-    throw error;
+    return { error: "An unexpected error occurred" };
   }
 };
 
+export const handleGoogleSignIn = async ( callbackUrl?: string | null) => {
+	try {
+		await signIn('google', { 
+			redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT
+		});
+		return { success: "Login successful!" };
+	}catch (error) {
+		if (error instanceof AuthError) {
+			return { error: "Invalid credentials!" };
+		}
+		throw error;
+	}
+}
 
+export const handleSignOut = async () => {
+	await signOut();
+	return { success: "Sign out successful!" };
+}
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values);

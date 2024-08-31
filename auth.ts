@@ -8,7 +8,7 @@ import { getAccountByUserId, getUserById } from "@/lib/actions";
 const prisma = new PrismaClient();
 
 export const {
-  handlers: { GET, POST },
+  handlers,
   auth,
   signIn,
   signOut,

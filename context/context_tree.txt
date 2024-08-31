@@ -1,0 +1,39 @@
+/Users/munawarali/Documents/coded_programs/2wincoder/boiler-template/
+│
+├── .gitignore
+├── README.md
+├── app/
+│   ├── actions.ts 
+│   ├── auth/
+│   │   ├── error/
+│   │   │   └── page.tsx #Pre-built 
+│   │   ├── login/
+│   │   │   └── page.tsx #Pre-built (Uses: components/LoginForm.tsx #Editable)
+│   │   └── register/
+│   │       └── page.tsx #Pre-built 
+│   ├── components/
+│   │   ├── ChatComponent.tsx 
+│   │   ├── HomeLayout.tsx (Uses: layout.tsx)
+│   │   ├── LoginForm.tsx (Uses: actions.ts)
+│   │   └── ThemeSwitchButton.tsx (Uses: providers.tsx)
+│   ├── globals.css
+│   ├── layout.tsx (Uses: providers.tsx)
+│   ├── page.tsx (Uses: layout.tsx, providers.tsx)
+│   └── providers.tsx (Uses: actions.ts)
+├── auth.config.ts
+├── auth.ts (Uses: auth.config.ts, schemas/index.ts)
+├── context/
+│   └── context_tree.txt
+├── lib/
+│   └── actions.ts (Uses: schemas/index.ts)
+├── next-env.d.ts
+├── package-lock.json
+├── package.json
+├── public/
+│   ├── next.svg
+│   └── vercel.svg
+├── routes.ts (Uses: auth.ts)
+├── schemas/
+│   └── index.ts
+├── tailwind.config.ts
+└── tsconfig.json
