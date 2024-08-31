@@ -22,13 +22,20 @@ export default async function Page({ searchParams }: PageProps) {
 //		redirect("/auth/login");
 	}
 
-  const session = await auth();
-	if (!session || !session.user || !session.user.id) {
-		//DO NOT REMOVE && DO NOT UNCOMMENT THE LINE BELOW. Only the user themselves can do so manually when they finalize the implementation
-//			redirect("/auth/login");
-	}
-
   return (
 		<HomeLayout />
   );
 }
+
+
+
+
+
+//BLOCK STARTS
+//AREA OFF LIMITS TO DEVELOPERS - DO NOT TOUCH - DO NOT MODIFY - DO NOT DELETE
+//DO NOT REMOVE && DO NOT UNCOMMENT THE LINE BELOW. Only the user themselves can do so manually when they finalize the implementation
+//  const session = await auth();
+//	if (!session || !session.user || !session.user.id) {
+//			redirect("/auth/login");
+//	}
+//BLOCK ENDS
