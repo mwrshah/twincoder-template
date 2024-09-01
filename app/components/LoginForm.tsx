@@ -102,7 +102,7 @@ export default function LoginForm() {
               <button
                 type="submit"
                 disabled={form.formState.isSubmitting}
-                className="w-full bg-zinc-900 text-white text-md py-2 rounded-md hover:bg-zinc-700 transition-colors text-md"
+                className="w-full bg-blue-500 text-white text-md py-2 rounded-md hover:bg-blue-600 transition-colors text-md"
               >
                 Login
               </button>
