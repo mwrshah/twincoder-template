@@ -1,0 +1,6 @@
+{
+  "watch": [".env.local"],
+  "ext": "env",
+  "exec": "npm run dev"
+}
+
