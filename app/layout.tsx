@@ -6,8 +6,8 @@ import { Providers } from './providers'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "2wincoder Starter",
-  description: "Generated an app with AI",
+  title: "AI App",
+  description: "App generated with AI",
 };
 
 export default function RootLayout({
