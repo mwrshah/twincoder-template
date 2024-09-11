@@ -1,6 +1,6 @@
 {
-  "watch": [".env.local"],
+  "watch": [".env.local", "./.next/BUILD_ID"],
   "ext": "env",
-  "exec": "npm run dev"
+  "exec": "npm run start"
 }
 

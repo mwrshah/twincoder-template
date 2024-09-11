@@ -10,5 +10,5 @@ const callLocalhost = () => {
 };
 
 // Delay the call to allow the dev server to start
-setTimeout(callLocalhost, 1000); // Adjust the timeout based on how long your dev server takes to start
+setTimeout(callLocalhost, 500); // Adjust the timeout based on how long your dev server takes to start
 

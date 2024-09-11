@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev-watch": "nodemon --config nodemon.json",
-    "dev": "concurrently \"next dev --turbo\" \"node call-localhost.js\"",
+    "watch": "nodemon --config nodemon.json",
+    "dev": "next dev --turbo",
     "build": "next build",
-    "start": "next start",
+    "start": "concurrently \"next start\" \"node call-localhost.js\"",
     "lint": "next lint"
   },
   "dependencies": {
