@@ -1,33 +1,41 @@
-'use client'
-"use client";
+import { auth } from "@/auth"; 
+import { checkForSession } from "@/lib/actions";
+import { redirect } from "next/navigation";
+import HomeLayout from "@/app/components/HomeLayout";
+interface PageProps {
+	searchParams: {
+	allow?: string;
+	};
+}
 
-import { useEffect } from 'react';
-import mermaid from 'mermaid';
+export default async function Page({ searchParams }: PageProps) {
+  let allowPassThrough = searchParams?.allow === "true";
 
-export default function Home() {
-  const mermaidChart = `
-    graph TD;
-      Start[Start] --> Planning[Planning];
-      Planning --> Design[Design];
-      Design --> Development[Development];
-      Development --> Testing[Testing];
-      Testing --> Deployment[Deployment];
-      Deployment --> Maintenance[Maintenance];
-      Maintenance --> Planning[Planning];
-  `;
+	const dbSession = await checkForSession();
+	if (dbSession) {
+		allowPassThrough = true;
+	}
 
-  useEffect(() => {
-    // Initialize Mermaid after component mounts
-    mermaid.initialize({ startOnLoad: true });
-    // Render the Mermaid chart content after load
-    mermaid.contentLoaded();
-  }, []);
+	if (!allowPassThrough) {
+		//DEMO ONLY: The following code allows showing user a Demo of the login functionality in an iframe
+		// UNCOMMENT THE FOLLOWING LINE ONLY IF THE USER asks for auth to be added, to demo how it will work
+//		redirect("/auth/login");
+	}
 
   return (
-    <div>
-      <h1>Software Development Cycle</h1>
-      {/* Mermaid chart container */}
-      <div className="mermaid">{mermaidChart}</div>
-    </div>
+		<HomeLayout />
   );
 }
+
+
+
+
+
+//BLOCK STARTS
+//AREA OFF LIMITS TO DEVELOPERS - DO NOT TOUCH - DO NOT MODIFY - DO NOT DELETE
+//DO NOT REMOVE && DO NOT UNCOMMENT THE LINE BELOW. Only the user themselves can do so manually when they finalize the implementation
+//  const session = await auth();
+//	if (!session || !session.user || !session.user.id) {
+//			redirect("/auth/login");
+//	}
+//BLOCK ENDS
